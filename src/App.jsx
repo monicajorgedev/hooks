@@ -1,22 +1,18 @@
-import useFecthCharacters from './hooks/useFecthCharacters';
+import useCustomHook from './hooks/useCustomHook';
+import TemplateCharacter from './components/TemplateCharacter'
 import './App.css';
 
 function App() {
   const urlPokemon = 'https://pokeapi.co/api/v2/pokemon/1';
   const urlRick = 'https://rickandmortyapi.com/api/character/1';
   
-  const FetchPokemon = useFecthCharacters(urlPokemon)
-  const FetchRick = useFecthCharacters(urlRick)
+  const {data : pokemon} = useCustomHook(urlPokemon)
+  const {data : rick} = useCustomHook(urlRick)
 
   return (
     <>
-      <h2>Personaje Pokemon</h2>
-      <p>{FetchPokemon.character}</p>
-      <img src={FetchPokemon.imgUrl}  />
-
-      <h2>Personaje Rick and Morty</h2>
-      <p>{FetchRick.character}</p>
-      <img src={FetchRick.imgUrl}  />
+    {!pokemon ? '...loading' : <TemplateCharacter title='Personaje Pokemon'        name={pokemon.name} image={pokemon.sprites?.front_default}/>}
+    {!rick ? '...loading'    : <TemplateCharacter title='Personaje Rick and Morty' name={rick.name}    image={rick.image}/>}
     </>
   );
 }
